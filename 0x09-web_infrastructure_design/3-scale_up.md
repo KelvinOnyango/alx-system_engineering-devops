@@ -1,6 +1,6 @@
 # Scaled Up Infrastructure Design
 
-![Scaled Infrastructure Diagram](https://raw.githubusercontent.com/YOUR-USERNAME/alx-system_engineering-devops/main/0x09-web_infrastructure_design/3-scale_up.png)
+![Scaled Infrastructure Diagram](https://raw.githubusercontent.com/KelvinOnyango/alx-system_engineering-devops/main/0x09-web_infrastructure_design/3-scale_up.png)
 
 ## Architectural Changes
 
