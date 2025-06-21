@@ -1,7 +1,6 @@
 # Simple Web Infrastructure Design
 
-![Simple Web Stack Diagram](https://i.imgur.com/0-simple_web_stack_diagram.png)  
-*(Replace with your actual image link after uploading)*
+![Simple Web Stack Diagram](https://raw.githubusercontent.com/KelvinOnyango/alx-system_engineering-devops/main/0x09-web_infrastructure_design/0-simple_web_stack_diagram.png)
 
 ## Infrastructure Components
 
