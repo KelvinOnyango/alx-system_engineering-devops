@@ -1,6 +1,6 @@
 # Distributed Web Infrastructure Design
 
-![Distributed Infrastructure Diagram](https://raw.githubusercontent.com/your-username/alx-system_engineering-devops/main/0x09-web_infrastructure_design/1-distributed_web_infrastructure.png)
+![Distributed Infrastructure Diagram](https://raw.githubusercontent.com/KelvinOnyango/alx-system_engineering-devops/main/0x09-web_infrastructure_design/1-distributed_web_infrastructure.png)
 
 ## Added Components
 
