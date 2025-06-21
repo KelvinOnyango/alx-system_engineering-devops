@@ -30,4 +30,22 @@
    - Stores and manages application data
    - Handles user accounts, content, etc.
 
-7. **Communication Flow**  
+7. **Communication Flow**
+   User → DNS → Web Server → Application Server → Database
+
+## Infrastructure Issues
+
+1. **Single Point of Failure (SPOF)**  
+- Entire system fails if the single server goes down
+
+2. **Downtime During Maintenance**  
+- Deploying updates requires restarting services
+- Website becomes temporarily unavailable
+
+3. **Scaling Limitations**  
+- Cannot handle significant traffic spikes
+- No load balancing or redundancy
+
+4. **Security Risks**  
+- No firewall or HTTPS in basic setup
+- All components share the same server resources
