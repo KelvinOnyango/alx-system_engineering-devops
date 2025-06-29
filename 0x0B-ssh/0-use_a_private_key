@@ -1,3 +1,4 @@
 #!/bin/bash
 # Connects to a server using the private key ~/.ssh/school as user ubuntu
+
 ssh -i ~/.ssh/school ubuntu@$1
