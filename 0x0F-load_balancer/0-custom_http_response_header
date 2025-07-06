@@ -1,14 +1,22 @@
 #!/usr/bin/env bash
-# Installing Nginx and redirection
+# Configures Nginx with custom header X-Served-By
 
-apt-get -y update
-apt-get -y install nginx
-ufw allow 'Nginx HTTP'
-echo "Hello World!" > /var/www/html/index.html
-echo "Ceci n'est pas une page" > /var/www/html/error_404.html
-service nginx start
-sed -i "25i location /redirect_me {\n return 301 https://www.youtube.com/watch?v=v5nfmtFzvvk;\n}\n" /etc/nginx/sites-available/default
-sed -i "28i error_page 404 /error_404.html;\n location = /error_404.html {\n root /var/www/html;\n internal;\n}\n" /etc/nginx/sites-available/default
-sed -i "33i\\
-\tadd_header X-Served-By \$hostname;" /etc/nginx/sites-available/default
+# Install Nginx if not already installed
+apt-get update -y
+apt-get install nginx -y
+
+# Get server hostname
+HOSTNAME=$(hostname)
+
+# Configure Nginx with custom header
+cat > /etc/nginx/conf.d/custom_header.conf <<EOF
+add_header X-Served-By $HOSTNAME;
+EOF
+
+# Create default page if it doesn't exist
+if [ ! -f /var/www/html/index.nginx-debian.html ]; then
+    echo "Hello World!" > /var/www/html/index.nginx-debian.html
+fi
+
+# Restart Nginx
 service nginx restart
