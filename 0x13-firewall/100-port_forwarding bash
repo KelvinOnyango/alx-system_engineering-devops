@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# Configure UFW to forward port 8080 to port 80
+
+# Enable IP forwarding
+sed -i 's/^#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/' /etc/sysctl.conf
+sysctl -p
+
+# Configure NAT rule for port forwarding
+echo "
+*nat
+:PREROUTING ACCEPT [0:0]
+-A PREROUTING -p tcp --dport 8080 -j REDIRECT --to-port 80
+COMMIT
+" > /etc/ufw/before.rules
+
+# Allow incoming connections on port 8080
+ufw allow 8080/tcp
+
+# Restart UFW to apply changes
+ufw disable
+ufw enable
