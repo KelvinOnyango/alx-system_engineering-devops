@@ -1,16 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# Installing Nginx
 
-# Update package lists
-apt-get update -y
-
-# Install nginx
-apt-get install nginx -y
-
-# Create the Hello World page
-echo "Hello World!" > /var/www/html/index.nginx-debian.html
-
-# Remove the default nginx page
-rm /var/www/html/index.html
-
-# Restart nginx without using systemctl
-service nginx restart
+apt-get -y update
+apt-get -y install nginx
+ufw allow 'Nginx HTTP'
+echo "Hello World!" > /var/www/html/index.html 
+# sed -i 's/listen 80 default_server;/listen 80;/' /etc/nginx/sites-available/default
+service nginx start
