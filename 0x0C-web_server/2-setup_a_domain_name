@@ -1,1 +1,3 @@
-sakanet.tech
+#!/bin/bash
+# This file contains your domain name only
+echo "www.akanet.tech"  # Replace with your actual domainsakanet.tech
