@@ -1,0 +1,3 @@
+#!/bin/bash
+# This file contains your domain name only
+echo "yourdomain.tech"  # Replace with your actual domain
