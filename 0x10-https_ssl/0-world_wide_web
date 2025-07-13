@@ -1,17 +1,36 @@
 #!/usr/bin/env bash
-# 0. World wide web
+# Displays DNS information for specified domain and subdomains
 
-print_domain() {
-	dig "$2"."$1" | grep -A1 'ANSWER SECTION:' | awk 'NR==2' | awk -F " " '{split($1, arr, ".")};{print "The subdomain " arr[1] " is a " $4 " record and points to " $5}'
+get_dns_info() {
+    local domain=$1
+    local subdomain=$2
+    local full_domain
+    
+    if [ -z "$subdomain" ]; then
+        full_domain="${subdomain}.${domain}"
+    else
+        full_domain="${subdomain}.${domain}"
+    fi
+    
+    # Query DNS and extract relevant information
+    dig "$full_domain" | awk -v sd="$subdomain" '
+        /^;; ANSWER SECTION:/ {getline; print "The subdomain " sd " is a " $4 " record and points to " $5}
+    '
 }
 
-if [ $# -eq 2 ]
-then
-	print_domain "$1" "$2"
-elif [ $# -eq 1 ]
-then
-	for arr in "www" "lb-01" "web-01" "web-02"
-	do
-		print_domain "$1" "$arr"
-	done
-fi
+main() {
+    local domain=$1
+    local subdomain=$2
+    
+    if [ -z "$subdomain" ]; then
+        # Check default subdomains in order
+        get_dns_info "$domain" "www"
+        get_dns_info "$domain" "lb-01"
+        get_dns_info "$domain" "web-01"
+        get_dns_info "$domain" "web-02"
+    else
+        get_dns_info "$domain" "$subdomain"
+    fi
+}
+
+main "$@"
