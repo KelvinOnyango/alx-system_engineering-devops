@@ -1,34 +1,20 @@
 #!/usr/bin/env bash
-# Script that displays information about subdomains
+# displays information about subdomains
 
-# Function to display subdomain information
-display_subdomain_info() {
-    local domain=$1
-    local subdomain=$2
-    
-    # Use dig to get DNS information and parse with awk
-    local result=$(dig "$subdomain.$domain" | grep -A1 'ANSWER SECTION:' | tail -n1)
-    
-    # Extract record type and destination using awk
-    local record_type=$(echo "$result" | awk '{print $4}')
-    local destination=$(echo "$result" | awk '{print $5}')
-    
-    # Display the information in required format
-    echo "The subdomain $subdomain is a $record_type record and points to $destination"
+domain="$1"
+subdomain="$2"
+
+dns_info() {
+	if [ "$domain" ] && [ "$subdomain" ] ; then
+		dig "$subdomain.$domain" | grep -A1 'ANSWER SECTION:' | tail -n 1 |
+		awk '{print "The subdomain","'"$subdomain"'","is a",$4,"record and points to",$5}'
+	elif [ "$domain" ] ; then
+		subdomains=("www" "lb-01" "web-01" "web-02")
+		for sub in "${subdomains[@]}" ; do
+			dig "$sub.$domain" | grep -A1 'ANSWER SECTION:' | tail -n 1 |
+			awk '{print "The subdomain","'"$sub"'","is a",$4,"record and points to",$5}'
+		done
+	fi
 }
 
-# Main script logic
-domain=$1
-subdomain=$2
-
-# Check if subdomain is provided
-if [ -n "$subdomain" ]; then
-    # Display information for specific subdomain
-    display_subdomain_info "$domain" "$subdomain"
-else
-    # Display information for default subdomains in specified order
-    display_subdomain_info "$domain" "www"
-    display_subdomain_info "$domain" "lb-01"
-    display_subdomain_info "$domain" "web-01"
-    display_subdomain_info "$domain" "web-02"
-fi
+dns_info "$1" "$2"
