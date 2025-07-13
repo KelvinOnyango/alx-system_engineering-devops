@@ -1,20 +1,17 @@
 #!/usr/bin/env bash
-# displays information about subdomains
+# 0. World wide web
 
-domain="$1"
-subdomain="$2"
-
-dns_info() {
-	if [ "$domain" ] && [ "$subdomain" ] ; then
-		dig "$subdomain.$domain" | grep -A1 'ANSWER SECTION:' | tail -n 1 |
-		awk '{print "The subdomain","'"$subdomain"'","is a",$4,"record and points to",$5}'
-	elif [ "$domain" ] ; then
-		subdomains=("www" "lb-01" "web-01" "web-02")
-		for sub in "${subdomains[@]}" ; do
-			dig "$sub.$domain" | grep -A1 'ANSWER SECTION:' | tail -n 1 |
-			awk '{print "The subdomain","'"$sub"'","is a",$4,"record and points to",$5}'
-		done
-	fi
+print_domain() {
+	dig "$2"."$1" | grep -A1 'ANSWER SECTION:' | awk 'NR==2' | awk -F " " '{split($1, arr, ".")};{print "The subdomain " arr[1] " is a " $4 " record and points to " $5}'
 }
 
-dns_info "$1" "$2"
+if [ $# -eq 2 ]
+then
+	print_domain "$1" "$2"
+elif [ $# -eq 1 ]
+then
+	for arr in "www" "lb-01" "web-01" "web-02"
+	do
+		print_domain "$1" "$arr"
+	done
+fi
